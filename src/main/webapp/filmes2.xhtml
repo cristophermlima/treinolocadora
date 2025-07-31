@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/WEB-INF/template.xhtml">
+
+    <ui:define name="titulo" />
+
+    <ui:define name="cabecalho">
+        <h1 class="aw-page-title">Locadora do Cris</h1>
+        <h:form id="frm">
+            <p:panelGrid columns="2" layout="grid" styleClass="panelgrid-noborder" columnClasses="ui-grid-col-3, ui-grid-col-1">
+
+                <p:outputLabel value="Id:" />
+                <p:inputText value="#{filmesBacking.id}" />
+
+                <p:outputLabel value="Nome:" />
+                <p:inputText value="#{filmesBacking.nome}" required="true" />
+
+                <p:outputLabel value="Classificação:" />
+                <p:inputText value="#{filmesBacking.classificacao}" />
+
+                <p:outputLabel value="Ano de lançamento:" />
+                <p:inputText value="#{filmesBacking.anoLancamento}" />
+
+                <p:outputLabel value="Nome do diretor:" />
+                <p:inputText value="#{filmesBacking.nomeDiretor}" />
+
+                <p:outputLabel value="Origem do filme:" />
+                <p:inputText value="#{filmesBacking.origem}" />
+
+                <p:outputLabel value="Gênero:" />
+                <p:selectOneMenu id="option" value="#{filmesBacking.genero}">
+                    <f:selectItem itemLabel="Selecione o Gênero" itemValue="" />
+                    <f:selectItem itemLabel="Ação" itemValue="1" />
+                    <f:selectItem itemLabel="Suspense" itemValue="2" />
+                    <f:selectItem itemLabel="Terror" itemValue="3" />
+                    <f:selectItem itemLabel="Ficção Científica" itemValue="4" />
+                    <f:selectItem itemLabel="Comédia" itemValue="5" />
+                    <f:selectItem itemLabel="Romance" itemValue="6" />
+                    <f:selectItem itemLabel="Drama" itemValue="7" />
+                    <f:selectItem itemLabel="Desenho" itemValue="8" />
+                </p:selectOneMenu>
+
+                <p:commandButton value="Add" update="frm"  action="#{filmesBacking.actionAdd}" />
+                <p:commandButton value="Imprimir" action="#{filmesBacking.actionImprimir}" />
+                <p:commandButton value="Apagar tudo" update="frm" action="#{filmesBacking.actionExcluir}" />
+                <p:spacer />
+            </p:panelGrid>
+
+            <p:dataTable emptyMessage="Sem filmes cadastrados" var="filme" value="#{filmesBacking.filmesList}">
+                <f:facet name="header">Lista de Filmes</f:facet>
+
+                <p:column headerText="Id">
+                    <h:outputText value="#{filme.id}" />
+                </p:column>
+                <p:column headerText="Nome do filme">
+                    <h:outputText value="#{filme.nome}" />
+                </p:column>
+                <p:column headerText="Gênero do filme">
+                    <h:outputText value="#{
+                        filme.genero == '1' ? 'Ação' :
+                        filme.genero == '2' ? 'Suspense' :
+                        filme.genero == '3' ? 'Terror' :
+                        filme.genero == '4' ? 'Ficção científica' :
+                        filme.genero == '5' ? 'Comédia' :
+                        filme.genero == '6' ? 'Romance' :
+                        filme.genero == '7' ? 'Drama' :
+                        filme.genero == '8' ? 'Desenho' : 'Desconhecido'
+                    }" />
+                </p:column>
+                <p:column headerText="Classificação">
+                    <h:outputText value="#{filme.classificacao}" />
+                </p:column>
+                <p:column headerText="Excluir">
+                    <p:commandButton value="Excluir linha" action="#{filmesBacking.actionExcluirLinha(filme)}" update="frm" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
